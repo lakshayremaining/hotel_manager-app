@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Namo Raga Hotel — Luxury & Comfort</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    Call Us: <span>+91 98765 43210</span> &nbsp;|&nbsp; 
+    <span>namaragahotel@gmail.com</span> &nbsp;|&nbsp; 
+    Open 24 × 7
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+      <div class="logo-text">
+        <span class="logo-name">NAMO RAGA</span>
+        <span class="logo-sub">Luxury Hotel</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="rooms.html">Rooms</a></li>
+      <li><a href="booking.html">Experiences</a></li>
+      <li><a href="#offers">Offers</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="guests.html">Guests</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="guests.html" class="btn-login">LOGIN / JOIN</a>
+      <a href="booking.html" class="btn-book">BOOK A STAY</a>
+      <div class="hamburger" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO — Hotel Building Banner ===== -->
+  <section class="hero">
+    <div class="hero-image">
+      <!-- Hotel building image from Unsplash (luxury heritage hotel) -->
+      <img 
+        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80" 
+        alt="Namo Raga Hotel Building"
+      />
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>Est. 2005</span>
+        <span>5 Star Luxury</span>
+      </div>
+      <div class="hero-hotel-name">NAMO RAGA</div>
+      <p class="hero-tagline">
+        A Legacy Shaped by Tradition<br/>
+        An Icon Embraced by Guests
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== STAT BAR ===== -->
+  <div style="background:#1a1208;color:#ccc;display:flex;justify-content:center;gap:60px;padding:20px 40px;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;" id="heroAvail">—</div>
+      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Rooms Available</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;">10</div>
+      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Total Rooms</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;" id="heroGuests">—</div>
+      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Happy Guests</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;">4.9 ★</div>
+      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Guest Rating</div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1: OUR ROOMS PREVIEW ===== -->
+  <section class="section" id="rooms">
+    <div class="section-header">
+      <div class="section-label">
+        <div class="section-line"></div>
+        <div>
+          <h2 class="section-title">Our Rooms &<br/>Suites</h2>
+        </div>
+      </div>
+      <p class="section-desc">
+        Experience unparalleled comfort in our elegantly appointed rooms. 
+        From cozy singles to opulent suites, every room is a sanctuary of luxury.
+      </p>
+    </div>
+
+    <div class="rooms-preview-grid">
+      <!-- Room 1: Single -->
+      <div class="room-preview-card">
+        <img 
+          src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" 
+          alt="Single Room"
+        />
+        <div class="room-overlay">
+          <h3>Single Room</h3>
+          <p>From ₹1,200 / night</p>
+        </div>
+      </div>
+      <!-- Room 2: Deluxe -->
+      <div class="room-preview-card">
+        <img 
+          src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" 
+          alt="Deluxe Room"
+        />
+        <div class="room-overlay">
+          <h3>Deluxe Room</h3>
+          <p>From ₹3,000 / night</p>
+        </div>
+      </div>
+      <!-- Room 3: Suite -->
+      <div class="room-preview-card">
+        <img 
+          src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" 
+          alt="Luxury Suite"
+        />
+        <div class="room-overlay">
+          <h3>Luxury Suite</h3>
+          <p>From ₹4,500 / night</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:35px;">
+      <a href="rooms.html" class="btn-book" style="display:inline-block;padding:14px 40px;font-size:0.8rem;">
+        VIEW ALL ROOMS
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: OFFERS / EXPERIENCES (Carousel Style) ===== -->
+  <section class="section section-alt" id="offers">
+    <div class="section-header">
+      <div class="section-label">
+        <div class="section-line"></div>
+        <div>
+          <h2 class="section-title">Special<br/>Offers</h2>
+        </div>
+      </div>
+      <p class="section-desc">
+        Discover curated experiences and exclusive packages crafted 
+        to make every stay truly unforgettable.
+      </p>
+    </div>
+
+    <!-- CAROUSEL WRAPPER -->
+    <div class="offers-wrapper">
+      <div class="offers-grid" id="offersGrid">
+
+        <!-- Offer Card 1 -->
+        <div class="offer-card">
+          <img 
+            src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=600&q=80" 
+            alt="Honeymoon Escape"
+          />
+          <div class="offer-body">
+            <div class="offer-title">Honeymoon Escape Package</div>
+            <div class="offer-desc">
+              Celebrate love in the lap of luxury. Enjoy a romantic candlelit dinner, 
+              flower-decorated suite, and complimentary spa session for two. 
+              <a href="booking.html">»</a>
+            </div>
+            <div class="offer-actions">
+              <a href="booking.html" class="btn-offer-primary">Book Now</a>
+              <a href="booking.html" class="btn-offer-secondary">Read More &rsaquo;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offer Card 2 -->
+        <div class="offer-card">
+          <img 
+            src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&q=80" 
+            alt="Festival Celebration"
+          />
+          <div class="offer-body">
+            <div class="offer-title">Festival Celebrations</div>
+            <div class="offer-desc">
+              Begin the festive season with warmth, joy, and splendour. 
+              Come together over cherished traditions with special thali dinners 
+              and cultural performances. <a href="booking.html">»</a>
+            </div>
+            <div class="offer-actions">
+              <a href="booking.html" class="btn-offer-primary">Book Now</a>
+              <a href="booking.html" class="btn-offer-secondary">Read More &rsaquo;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Offer Card 3 -->
+        <div class="offer-card">
+          <img 
+            src="https://images.unsplash.com/photo-1529290130-4ca3753253ae?w=600&q=80" 
+            alt="Business Stay"
+          />
+          <div class="offer-body">
+            <div class="offer-title">The Business Special</div>
+            <div class="offer-desc">
+              Whether you are travelling for business or a weekend away, 
+              make your stay feel truly worth it. Includes complimentary 
+              breakfast and high-speed Wi-Fi. <a href="booking.html">»</a>
+            </div>
+            <div class="offer-actions">
+              <a href="booking.html" class="btn-offer-primary">Book Now</a>
+              <a href="booking.html" class="btn-offer-secondary">Read More &rsaquo;</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end offers-grid -->
+    </div><!-- end offers-wrapper -->
+  </section>
+
+  <!-- ===== SECTION 3: EVENTS & CONFERENCES ===== -->
+  <section class="section" id="events">
+    <div class="section-header">
+      <div class="section-label">
+        <div class="section-line"></div>
+        <div>
+          <h2 class="section-title">Events &<br/>Conferences</h2>
+        </div>
+      </div>
+      <p class="section-desc">
+        Namo Raga Hotel elevates every occasion into an awe-inspiring, 
+        immersive experience to cherish forever.
+      </p>
+    </div>
+
+    <div class="events-grid">
+
+      <!-- Event 1 -->
+      <div class="event-card">
+        <img 
+          src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=700&q=80" 
+          alt="Meetings and Conferences"
+        />
+        <div class="event-label">
+          <i class="fa fa-briefcase" style="color:#b8963e;"></i>
+          <span class="event-label-text">Meetings &amp; Conferences</span>
+        </div>
+      </div>
+
+      <!-- Event 2 -->
+      <div class="event-card">
+        <img 
+          src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=700&q=80" 
+          alt="Events"
+        />
+        <div class="event-label">
+          <i class="fa fa-star" style="color:#b8963e;"></i>
+          <span class="event-label-text">Events</span>
+        </div>
+      </div>
+
+      <!-- Event 3 -->
+      <div class="event-card">
+        <img 
+          src="https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80" 
+          alt="Timeless Weddings"
+        />
+        <div class="event-label">
+          <i class="fa fa-heart" style="color:#b8963e;"></i>
+          <span class="event-label-text">Timeless Weddings</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: DASHBOARD STATS (Manager View) ===== -->
+  <section class="section section-alt">
+    <div class="section-header" style="margin-bottom:30px;">
+      <div class="section-label">
+        <div class="section-line"></div>
+        <div>
+          <h2 class="section-title">Hotel<br/>Dashboard</h2>
+        </div>
+      </div>
+      <p class="section-desc">Live status of rooms and guest bookings at Namo Raga Hotel.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <i class="fa fa-building"></i>
+        <div>
+          <h3>10</h3>
+          <p>Total Rooms</p>
+        </div>
+      </div>
+      <div class="stat-card available">
+        <i class="fa fa-check-circle"></i>
+        <div>
+          <h3 id="availableRooms">—</h3>
+          <p>Available</p>
+        </div>
+      </div>
+      <div class="stat-card booked">
+        <i class="fa fa-times-circle"></i>
+        <div>
+          <h3 id="bookedRooms">—</h3>
+          <p>Booked</p>
+        </div>
+      </div>
+      <div class="stat-card guests">
+        <i class="fa fa-users"></i>
+        <div>
+          <h3 id="totalGuests">—</h3>
+          <p>Total Guests</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions" style="margin-top:30px;">
+      <a href="booking.html" class="action-btn">
+        <i class="fa fa-calendar-plus"></i> New Booking
+      </a>
+      <a href="rooms.html" class="action-btn">
+        <i class="fa fa-bed"></i> View All Rooms
+      </a>
+      <a href="guests.html" class="action-btn">
+        <i class="fa fa-users"></i> View All Guests
+      </a>
+    </div>
+
+    <!-- Recent Bookings -->
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin:35px 0 15px;color:#1a1208;">
+      🕐 Recent Bookings
+    </h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Guest Name</th>
+            <th>Room</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+          </tr>
+        </thead>
+        <tbody id="recentBookingsBody">
+          <tr>
+            <td colspan="5" style="text-align:center;color:#aaa;padding:25px;">
+              No bookings yet. <a href="booking.html" style="color:#b8963e;">Make a booking?</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-top">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="footer-logo-name">NAMO RAGA</div>
+        <div class="footer-logo-sub">Luxury Hotel</div>
+        <p>
+          Namo Raga Hotel offers a timeless blend of tradition and 
+          modern luxury. Every stay is a story — crafted with warmth, 
+          elegance, and unparalleled hospitality.
+        </p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Our Rooms</a></li>
+          <li><a href="booking.html">Book a Stay</a></li>
+          <li><a href="guests.html">Guest List</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#offers">Offers</a></li>
+        </ul>
+      </div>
+
+      <!-- Room Types -->
+      <div class="footer-col">
+        <h4>Room Types</h4>
+        <ul>
+          <li><a href="rooms.html">Single Rooms</a></li>
+          <li><a href="rooms.html">Double Rooms</a></li>
+          <li><a href="rooms.html">Deluxe Rooms</a></li>
+          <li><a href="rooms.html">Luxury Suites</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col footer-contact">
+        <h4>Contact Us</h4>
+        <p><i class="fa fa-map-marker-alt"></i> 12 Palace Road, Jaipur, Rajasthan — 302001</p>
+        <p><i class="fa fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa fa-envelope"></i> namaragahotel@gmail.com</p>
+        <p><i class="fa fa-clock"></i> Reception: 24 × 7</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Namo Raga Hotel. All Rights Reserved.</span>
+      <div style="display:flex;gap:20px;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

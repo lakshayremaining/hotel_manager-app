@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rooms — Namo Raga Hotel</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    Call Us: <span>+91 98765 43210</span> &nbsp;|&nbsp; <span>namaragahotel@gmail.com</span> &nbsp;|&nbsp; Open 24 × 7
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+      <div class="logo-text">
+        <span class="logo-name">NAMO RAGA</span>
+        <span class="logo-sub">Luxury Hotel</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="rooms.html" class="active">Rooms</a></li>
+      <li><a href="booking.html">Experiences</a></li>
+      <li><a href="index.html#offers">Offers</a></li>
+      <li><a href="index.html#events">Events</a></li>
+      <li><a href="guests.html">Guests</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="guests.html" class="btn-login">LOGIN / JOIN</a>
+      <a href="booking.html" class="btn-book">BOOK A STAY</a>
+      <div class="hamburger" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div style="background:linear-gradient(135deg,#1a1208 60%,#3a2810);padding:50px 60px;color:white;">
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:#b8963e;letter-spacing:3px;">Our Rooms &amp; Suites</h1>
+    <p style="font-size:0.85rem;color:#aaa;margin-top:8px;letter-spacing:1px;">
+      Home &rsaquo; <span style="color:#b8963e;">Rooms</span>
+    </p>
+  </div>
+
+  <div class="container">
+    <!-- FILTER BUTTONS -->
+    <div class="filter-bar" style="margin-top:30px;">
+      <button class="filter-btn active" onclick="filterRooms('all',this)">All Rooms</button>
+      <button class="filter-btn" onclick="filterRooms('available',this)">🟢 Available</button>
+      <button class="filter-btn" onclick="filterRooms('booked',this)">🔴 Booked</button>
+    </div>
+
+    <!-- ROOMS GRID -->
+    <div class="rooms-grid" id="roomsGrid"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo-name">NAMO RAGA</div>
+        <div class="footer-logo-sub">Luxury Hotel</div>
+        <p>Namo Raga Hotel offers a timeless blend of tradition and modern luxury.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Our Rooms</a></li>
+          <li><a href="booking.html">Book a Stay</a></li>
+          <li><a href="guests.html">Guest List</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Room Types</h4>
+        <ul>
+          <li><a href="#">Single Rooms</a></li>
+          <li><a href="#">Double Rooms</a></li>
+          <li><a href="#">Deluxe Rooms</a></li>
+          <li><a href="#">Luxury Suites</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact Us</h4>
+        <p><i class="fa fa-map-marker-alt"></i> 12 Palace Road, Jaipur, Rajasthan</p>
+        <p><i class="fa fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa fa-envelope"></i> namaragahotel@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Namo Raga Hotel. All Rights Reserved.</span>
+      <div style="display:flex;gap:20px;"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/rooms.js"></script>
+  <script>function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}</script>
+</body>
+</html>
