@@ -65,15 +65,9 @@ function calcNights(checkIn, checkOut) {
   return diff > 0 ? diff : 0;
 }
 
-// ---- ROOM TYPE ICON ----
+// ---- ROOM TYPE ICON / PREFIX ----
 function roomIcon(type) {
-  const icons = {
-    "Single": "🛏️",
-    "Double": "🛏️🛏️",
-    "Suite":  "👑",
-    "Deluxe": "⭐"
-  };
-  return icons[type] || "🛏️";
+  return "";
 }
 
 // ---- Run init on every page load ----

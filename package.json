@@ -1,0 +1,17 @@
+{
+  "name": "namo-raga-hotel",
+  "version": "1.0.0",
+  "description": "Namo Raga Luxury Hotel Management System - Fullstack on Vercel & MongoDB Atlas",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "node --watch api/index.js",
+    "seed": "node backend/seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2"
+  }
+}

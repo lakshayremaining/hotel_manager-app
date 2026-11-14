@@ -6,16 +6,25 @@
 let allBookings = []; // store all bookings for search
 
 // Run when page loads
-window.onload = function () {
-  allBookings = getBookings();
+window.onload = async function () {
+  const tbody = document.getElementById("guestsBody");
+  if (tbody) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gold);"><i class="fa fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Loading guest directory...</p></td></tr>`;
+  }
+  try {
+    allBookings = await HotelAPI.getBookings();
+  } catch (e) {
+    allBookings = getBookings();
+  }
   renderGuests(allBookings);
 };
 
 // ---- RENDER GUESTS TABLE ----
 function renderGuests(bookings) {
   const tbody = document.getElementById("guestsBody");
+  if (!tbody) return;
 
-  if (bookings.length === 0) {
+  if (!bookings || bookings.length === 0) {
     tbody.innerHTML = `
       <tr>
         <td colspan="8" style="text-align:center;color:#aaa;padding:30px;">
@@ -26,65 +35,89 @@ function renderGuests(bookings) {
   }
 
   // Show newest bookings first
-  const sorted = [...bookings].reverse();
+  const sorted = [...bookings];
 
-  tbody.innerHTML = sorted.map(b => `
-    <tr>
-      <td><strong>${b.id}</strong></td>
-      <td>
-        <strong>${b.guestName}</strong><br/>
-        <small style="color:#aaa;">${b.email || ''}</small>
-      </td>
-      <td>${b.phone}</td>
-      <td>Room ${b.roomId} <br/><small style="color:#aaa;">${b.roomType}</small></td>
-      <td>${formatDate(b.checkIn)}</td>
-      <td>${formatDate(b.checkOut)}</td>
-      <td><strong>₹${b.amount ? b.amount.toLocaleString() : '—'}</strong></td>
-      <td>
-        <button class="btn-checkout" onclick="checkOut('${b.id}')">
-          <i class="fa fa-sign-out-alt"></i> Check Out
-        </button>
-      </td>
-    </tr>
-  `).join("");
+  tbody.innerHTML = sorted
+    .map(b => {
+      const guestName = b.guestName ? b.guestName.trim() : "Guest";
+      const initial = guestName.charAt(0).toUpperCase();
+      const roomType = b.roomType || "Luxury";
+
+      return `
+      <tr>
+        <td>
+          <span class="booking-id-badge">
+            <i class="fa-solid fa-receipt"></i> ${b.id}
+          </span>
+        </td>
+        <td>
+          <div class="guest-cell">
+            <div class="guest-avatar">${initial}</div>
+            <div class="guest-info">
+              <span class="guest-name">${guestName}</span>
+              <span class="guest-meta">${b.email || "No email registered"}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span style="font-weight:600;color:var(--dark);"><i class="fa-solid fa-phone" style="color:var(--gold);margin-right:4px;"></i> ${
+            b.phone
+          }</span>
+        </td>
+        <td>
+          <div class="room-pill-cell">
+            <span class="room-badge-gold">${roomIcon(roomType)} Room ${b.roomId}</span>
+            <span class="room-type-tag">${roomType} Room</span>
+          </div>
+        </td>
+        <td>
+          <div class="date-range-cell">
+            <div class="date-in"><i class="fa-solid fa-plane-arrival"></i> ${formatDate(b.checkIn)}</div>
+            <div class="date-out"><i class="fa-solid fa-plane-departure"></i> ${formatDate(b.checkOut)}</div>
+          </div>
+        </td>
+        <td>
+          <span class="nights-pill">
+            <i class="fa-regular fa-moon"></i> ${b.nights || 1} Night${b.nights > 1 ? "s" : ""}
+          </span>
+        </td>
+        <td>
+          <span class="price-strong">₹${Number(b.amount || 0).toLocaleString()}</span>
+        </td>
+        <td>
+          <button class="btn-checkout" onclick="checkOut('${b.id}')">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Check Out
+          </button>
+        </td>
+      </tr>
+    `;
+    })
+    .join("");
 }
 
 // ---- CHECK OUT A GUEST ----
-function checkOut(bookingId) {
+async function checkOut(bookingId) {
   const confirmed = confirm("Are you sure you want to check out this guest?");
   if (!confirmed) return;
 
-  // Find the booking
-  let bookings = getBookings();
-  const booking = bookings.find(b => b.id === bookingId);
-
-  if (!booking) return;
-
-  // Free the room
-  let rooms = getRooms();
-  rooms = rooms.map(r =>
-    r.id === booking.roomId ? { ...r, status: "available" } : r
-  );
-  saveRooms(rooms);
-
-  // Remove the booking
-  bookings = bookings.filter(b => b.id !== bookingId);
-  saveBookings(bookings);
-
-  // Re-render
-  allBookings = bookings;
-  renderGuests(allBookings);
-
-  alert(`✅ ${booking.guestName} has been checked out. Room ${booking.roomId} is now available.`);
+  try {
+    await HotelAPI.checkOutGuest(bookingId);
+    allBookings = await HotelAPI.getBookings();
+    renderGuests(allBookings);
+    alert("✅ Guest has been checked out successfully and the room is now available.");
+  } catch (err) {
+    alert(`Checkout error: ${err.message}`);
+  }
 }
 
 // ---- SEARCH GUESTS ----
 function searchGuests() {
   const query = document.getElementById("searchGuest").value.toLowerCase();
-  const filtered = allBookings.filter(b =>
-    b.guestName.toLowerCase().includes(query) ||
-    b.phone.includes(query) ||
-    b.id.toLowerCase().includes(query)
+  const filtered = allBookings.filter(
+    b =>
+      (b.guestName && b.guestName.toLowerCase().includes(query)) ||
+      (b.phone && b.phone.includes(query)) ||
+      (b.id && b.id.toLowerCase().includes(query))
   );
   renderGuests(filtered);
 }

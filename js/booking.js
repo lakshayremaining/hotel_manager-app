@@ -4,8 +4,8 @@
 // =============================================
 
 // Run when page loads
-window.onload = function () {
-  loadAvailableRooms();
+window.onload = async function () {
+  await loadAvailableRooms();
   setMinDates();
 
   // Listen for room/date changes to show price preview
@@ -14,39 +14,51 @@ window.onload = function () {
   document.getElementById("checkOut").addEventListener("change", updatePrice);
 };
 
+let cachedRooms = [];
+
 // ---- LOAD ONLY AVAILABLE ROOMS INTO DROPDOWN ----
-function loadAvailableRooms() {
-  const rooms  = getRooms();
+async function loadAvailableRooms() {
   const select = document.getElementById("roomSelect");
+  select.innerHTML = `<option value="">-- Loading available rooms... --</option>`;
 
-  const available = rooms.filter(r => r.status === "available");
+  try {
+    const rooms = await HotelAPI.getRooms("available");
+    cachedRooms = rooms;
 
-  if (available.length === 0) {
-    select.innerHTML = `<option value="">-- No rooms available --</option>`;
-    return;
+    if (!rooms || rooms.length === 0) {
+      select.innerHTML = `<option value="">-- No rooms available --</option>`;
+      return;
+    }
+
+    select.innerHTML =
+      `<option value="">-- Choose a Room --</option>` +
+      rooms
+        .map(
+          r =>
+            `<option value="${r.id}" data-price="${r.price}">
+              Room ${r.id} — ${r.type} (₹${Number(r.price).toLocaleString()}/night)
+            </option>`
+        )
+        .join("");
+  } catch (err) {
+    console.error("Error loading rooms:", err);
+    select.innerHTML = `<option value="">-- Error loading rooms --</option>`;
   }
-
-  select.innerHTML = `<option value="">-- Choose a Room --</option>` +
-    available.map(r =>
-      `<option value="${r.id}" data-price="${r.price}">
-        Room ${r.id} — ${r.type} (₹${r.price.toLocaleString()}/night)
-      </option>`
-    ).join("");
 }
 
 // ---- SET MIN DATE = TODAY ----
 function setMinDates() {
   const today = new Date().toISOString().split("T")[0];
-  document.getElementById("checkIn").min  = today;
+  document.getElementById("checkIn").min = today;
   document.getElementById("checkOut").min = today;
 }
 
 // ---- SHOW PRICE PREVIEW ----
 function updatePrice() {
   const roomSelect = document.getElementById("roomSelect");
-  const checkIn    = document.getElementById("checkIn").value;
-  const checkOut   = document.getElementById("checkOut").value;
-  const preview    = document.getElementById("pricePreview");
+  const checkIn = document.getElementById("checkIn").value;
+  const checkOut = document.getElementById("checkOut").value;
+  const preview = document.getElementById("pricePreview");
 
   const selectedOption = roomSelect.options[roomSelect.selectedIndex];
   const price = selectedOption ? parseInt(selectedOption.getAttribute("data-price")) : 0;
@@ -55,22 +67,28 @@ function updatePrice() {
     const nights = calcNights(checkIn, checkOut);
     if (nights > 0) {
       const total = nights * price;
-      document.getElementById("totalPrice").textContent = `₹${total.toLocaleString()} (${nights} night${nights > 1 ? 's' : ''})`;
+      document.getElementById("totalPrice").textContent = `₹${total.toLocaleString()} (${nights} night${
+        nights > 1 ? "s" : ""
+      })`;
       preview.style.display = "block";
+    } else {
+      preview.style.display = "none";
     }
+  } else {
+    preview.style.display = "none";
   }
 }
 
 // ---- SUBMIT BOOKING ----
-function submitBooking(event) {
-  event.preventDefault(); // stop page from refreshing
+async function submitBooking(event) {
+  event.preventDefault();
 
   const guestName = document.getElementById("guestName").value.trim();
-  const phone     = document.getElementById("phone").value.trim();
-  const email     = document.getElementById("email").value.trim();
-  const roomId    = parseInt(document.getElementById("roomSelect").value);
-  const checkIn   = document.getElementById("checkIn").value;
-  const checkOut  = document.getElementById("checkOut").value;
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const roomId = parseInt(document.getElementById("roomSelect").value);
+  const checkIn = document.getElementById("checkIn").value;
+  const checkOut = document.getElementById("checkOut").value;
 
   // Basic Validation
   if (!roomId) {
@@ -88,42 +106,45 @@ function submitBooking(event) {
     return;
   }
 
-  // Get price
-  const rooms      = getRooms();
-  const room       = rooms.find(r => r.id === roomId);
-  const nights     = calcNights(checkIn, checkOut);
+  const room = cachedRooms.find(r => r.id === roomId) || { price: 2000, type: "Luxury" };
+  const nights = calcNights(checkIn, checkOut);
   const totalPrice = nights * room.price;
 
-  // Create new booking object
-  const newBooking = {
-    id:        generateBookingId(),
-    guestName: guestName,
-    phone:     phone,
-    email:     email,
-    roomId:    roomId,
-    roomType:  room.type,
-    checkIn:   checkIn,
-    checkOut:  checkOut,
-    nights:    nights,
-    amount:    totalPrice,
-    bookedOn:  new Date().toISOString()
-  };
+  const submitBtn = event.target.querySelector("button[type='submit']");
+  const originalText = submitBtn ? submitBtn.innerHTML : "Confirm Booking";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa fa-spinner fa-spin"></i> Processing Booking...`;
+  }
 
-  // Save booking
-  const bookings = getBookings();
-  bookings.push(newBooking);
-  saveBookings(bookings);
+  try {
+    const result = await HotelAPI.createBooking({
+      guestName,
+      phone,
+      email,
+      roomId,
+      roomType: room.type,
+      checkIn,
+      checkOut,
+      nights,
+      amount: totalPrice,
+    });
 
-  // Mark room as booked
-  const updatedRooms = rooms.map(r =>
-    r.id === roomId ? { ...r, status: "booked" } : r
-  );
-  saveRooms(updatedRooms);
+    const bookingId = result.booking ? result.booking.id : "NRH-CONFIRMED";
 
-  // Show success message
-  document.getElementById("bookingForm").style.display = "none";
-  const successMsg = document.getElementById("successMsg");
-  successMsg.style.display = "block";
-  document.getElementById("successDetails").textContent =
-    `Booking ID: ${newBooking.id} | ${guestName} | Room ${roomId} | ${formatDate(checkIn)} → ${formatDate(checkOut)} | ₹${totalPrice.toLocaleString()}`;
+    // Show success message
+    document.getElementById("bookingForm").style.display = "none";
+    const successMsg = document.getElementById("successMsg");
+    successMsg.style.display = "block";
+    document.getElementById("successDetails").textContent =
+      `Booking ID: ${bookingId} | ${guestName} | Room ${roomId} | ${formatDate(checkIn)} → ${formatDate(
+        checkOut
+      )} | ₹${totalPrice.toLocaleString()}`;
+  } catch (err) {
+    alert(`Booking failed: ${err.message}`);
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+  }
 }

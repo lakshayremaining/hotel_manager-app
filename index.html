@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Namo Raga Hotel — Luxury & Comfort</title>
   <link rel="stylesheet" href="css/style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
@@ -68,24 +68,137 @@
   </section>
 
   <!-- ===== STAT BAR ===== -->
-  <div style="background:#1a1208;color:#ccc;display:flex;justify-content:center;gap:60px;padding:20px 40px;flex-wrap:wrap;">
-    <div style="text-align:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;" id="heroAvail">—</div>
-      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Rooms Available</div>
+  <div class="hero-stats-bar">
+    <div class="hero-stat-card">
+      <div class="hero-stat-number" id="heroAvail">—</div>
+      <div class="hero-stat-label">Rooms Available</div>
     </div>
-    <div style="text-align:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;">10</div>
-      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Total Rooms</div>
+    <div class="hero-stat-card">
+      <div class="hero-stat-number">10</div>
+      <div class="hero-stat-label">Total Rooms</div>
     </div>
-    <div style="text-align:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;" id="heroGuests">—</div>
-      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Happy Guests</div>
+    <div class="hero-stat-card">
+      <div class="hero-stat-number" id="heroGuests">—</div>
+      <div class="hero-stat-label">Happy Guests</div>
     </div>
-    <div style="text-align:center;">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#b8963e;">4.9 ★</div>
-      <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">Guest Rating</div>
+    <div class="hero-stat-card">
+      <div class="hero-stat-number">4.9 ★</div>
+      <div class="hero-stat-label">Guest Rating</div>
     </div>
   </div>
+
+  <!-- ===== AUTOMATIC TERMINAL / COMPUTER SCREEN SECTION ===== -->
+  <section class="keyboard-section" id="keyboardSection">
+
+    <div class="kb-title">
+      <span class="kb-title-line"></span>
+      <span class="kb-title-text">HOTEL HIGHLIGHTS &amp; LIVE STATUS</span>
+      <span class="kb-title-line"></span>
+    </div>
+
+    <div class="terminal-container">
+      <!-- ── COMPUTER SCREEN ── -->
+      <div class="comp-screen">
+        <!-- CRT monitor body -->
+        <div class="crt-monitor">
+          <div class="monitor-top-bar">
+            <span class="status-dot"></span>
+            <span class="monitor-title">SYS-TERMINAL // NAMO RAGA LUXURY</span>
+            <span class="monitor-badge">LIVE</span>
+          </div>
+
+          <div class="crt-screen">
+            <!-- scanlines -->
+            <div class="crt-scanlines"></div>
+            <!-- screen glow overlay -->
+            <div class="crt-glow"></div>
+
+            <!-- TYPING DISPLAY -->
+            <div class="screen-typing" id="screenTyping">
+              <pre class="type-output" id="typeOutput"></pre>
+              <span class="type-caret" id="typeCaret">█</span>
+            </div>
+          </div>
+        </div>
+        <!-- monitor neck + base -->
+        <div class="monitor-neck"></div>
+        <div class="monitor-base"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function() {
+    var features = [
+      "> NAMO RAGA HOTEL — 5 STAR HERITAGE LUXURY",
+      "> Palace Road, Jaipur, Rajasthan",
+      "> ================================================",
+      "",
+      "  [★] 10 Bespoke Royal Suites & Deluxe Rooms",
+      "  [★] Fine-Dining Multi-Cuisine Restaurant",
+      "  [★] Serene Rooftop Infinity Pool & Wellness Spa",
+      "  [★] 24x7 Royal Concierge & Butler Service",
+      "  [★] Complimentary High-Speed Fiber Wi-Fi",
+      "  [★] Grand Banquet & Royal Wedding Venues",
+      "  [★] Complimentary Valet Parking & Chauffeur Services",
+      "",
+      "> ================================================",
+      "> RESERVATIONS : +91 98765 43210 (24x7)",
+      "> STATUS       : ROOMS AVAILABLE | RATING: 4.9 ★",
+      "> WELCOME TO AN ICON EMBRACED BY TRADITION"
+    ];
+
+    function startAutoTyping() {
+      var output = document.getElementById('typeOutput');
+      if (!output) return;
+
+      var lineIndex = 0;
+      var charIndex = 0;
+
+      function typeNext() {
+        if (lineIndex >= features.length) {
+          // Pause when complete, then automatically restart
+          setTimeout(function() {
+            output.textContent = '';
+            lineIndex = 0;
+            charIndex = 0;
+            typeNext();
+          }, 6000);
+          return;
+        }
+
+        var line = features[lineIndex];
+
+        if (charIndex < line.length) {
+          output.textContent += line[charIndex];
+          charIndex++;
+          var ch = line[charIndex - 1];
+          var delay = ch === ' ' ? 20 : (ch === '>' || ch === '=' ? 30 : (Math.random() * 30 + 15));
+          var screenDiv = document.getElementById('screenTyping');
+          if (screenDiv) { screenDiv.scrollTop = screenDiv.scrollHeight; }
+          setTimeout(typeNext, delay);
+        } else {
+          output.textContent += '\n';
+          lineIndex++;
+          charIndex = 0;
+          var screenDiv = document.getElementById('screenTyping');
+          if (screenDiv) { screenDiv.scrollTop = screenDiv.scrollHeight; }
+          var pause = (line === '' || line.indexOf('===') > -1) ? 140 : 70;
+          setTimeout(typeNext, pause);
+        }
+      }
+
+      typeNext();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startAutoTyping);
+    } else {
+      startAutoTyping();
+    }
+  })();
+  </script>
+
 
   <!-- ===== SECTION 1: OUR ROOMS PREVIEW ===== -->
   <section class="section" id="rooms">
@@ -103,37 +216,156 @@
     </div>
 
     <div class="rooms-preview-grid">
-      <!-- Room 1: Single -->
+      <!-- Room 1: Single Room -->
       <div class="room-preview-card">
+        <span class="room-badge-pill">Cozy Stay</span>
         <img 
           src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" 
           alt="Single Room"
+          loading="lazy"
         />
         <div class="room-overlay">
           <h3>Single Room</h3>
-          <p>From ₹1,200 / night</p>
+          <div class="room-overlay-row">
+            <p>From ₹1,200 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
         </div>
       </div>
-      <!-- Room 2: Deluxe -->
+
+      <!-- Room 2: Deluxe Room -->
       <div class="room-preview-card">
+        <span class="room-badge-pill">Most Popular</span>
         <img 
           src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" 
           alt="Deluxe Room"
+          loading="lazy"
         />
         <div class="room-overlay">
           <h3>Deluxe Room</h3>
-          <p>From ₹3,000 / night</p>
+          <div class="room-overlay-row">
+            <p>From ₹3,000 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
         </div>
       </div>
-      <!-- Room 3: Suite -->
+
+      <!-- Room 3: Luxury Suite -->
       <div class="room-preview-card">
+        <span class="room-badge-pill">Royal Comfort</span>
         <img 
           src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80" 
           alt="Luxury Suite"
+          loading="lazy"
         />
         <div class="room-overlay">
           <h3>Luxury Suite</h3>
-          <p>From ₹4,500 / night</p>
+          <div class="room-overlay-row">
+            <p>From ₹4,500 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 4: Double Comfort Room -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Twin Luxury</span>
+        <img 
+          src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80" 
+          alt="Double Comfort Room"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Double Comfort Room</h3>
+          <div class="room-overlay-row">
+            <p>From ₹2,000 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 5: Royal Heritage Suite -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Heritage Palace</span>
+        <img 
+          src="https://images.unsplash.com/photo-1591088398332-8a7791972843?w=600&q=80" 
+          alt="Royal Heritage Suite"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Royal Heritage Suite</h3>
+          <div class="room-overlay-row">
+            <p>From ₹6,500 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 6: Executive Business Room -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Business Class</span>
+        <img 
+          src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80" 
+          alt="Executive Business Room"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Executive Business Room</h3>
+          <div class="room-overlay-row">
+            <p>From ₹2,800 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 7: Presidential Penthouse Suite -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Presidential</span>
+        <img 
+          src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" 
+          alt="Presidential Penthouse Suite"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Presidential Penthouse</h3>
+          <div class="room-overlay-row">
+            <p>From ₹9,500 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 8: Poolside Garden Villa -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Pool &amp; Garden</span>
+        <img 
+          src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&q=80" 
+          alt="Poolside Garden Villa"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Poolside Garden Villa</h3>
+          <div class="room-overlay-row">
+            <p>From ₹7,200 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room 9: Family Luxury Haven -->
+      <div class="room-preview-card">
+        <span class="room-badge-pill">Family Haven</span>
+        <img 
+          src="https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=600&q=80" 
+          alt="Family Luxury Haven"
+          loading="lazy"
+        />
+        <div class="room-overlay">
+          <h3>Family Luxury Haven</h3>
+          <div class="room-overlay-row">
+            <p>From ₹5,000 / night</p>
+            <a href="booking.html" class="room-book-link">Book &rsaquo;</a>
+          </div>
         </div>
       </div>
     </div>
@@ -285,84 +517,136 @@
   </section>
 
   <!-- ===== SECTION 4: DASHBOARD STATS (Manager View) ===== -->
-  <section class="section section-alt">
-    <div class="section-header" style="margin-bottom:30px;">
-      <div class="section-label">
-        <div class="section-line"></div>
-        <div>
-          <h2 class="section-title">Hotel<br/>Dashboard</h2>
+  <section class="section dashboard-section" id="dashboard">
+    <div class="dashboard-header-wrap">
+      <div class="dashboard-header-left">
+        <div class="dashboard-eyebrow">
+          <i class="fa-solid fa-crown"></i> Live Concierge &amp; Operations
+        </div>
+        <h2 class="section-title">Hotel Operations Dashboard</h2>
+        <p class="section-desc">Real-time room occupancy, live bookings registry, and active guest status.</p>
+      </div>
+      <div class="dashboard-header-right">
+        <div class="live-status-pill">
+          <span class="live-indicator-dot"></span>
+          <span>SYSTEM LIVE &bull; 24&times;7 DESK</span>
         </div>
       </div>
-      <p class="section-desc">Live status of rooms and guest bookings at Namo Raga Hotel.</p>
     </div>
 
+    <!-- Stat Cards Grid -->
     <div class="stats-grid">
+      <!-- Total Rooms -->
       <div class="stat-card total">
-        <i class="fa fa-building"></i>
-        <div>
-          <h3>10</h3>
-          <p>Total Rooms</p>
+        <div class="stat-top-row">
+          <div class="stat-icon"><i class="fa fa-building"></i></div>
+          <span class="stat-tag">Total Suites</span>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number">10</h3>
+          <p class="stat-label">Full Inventory</p>
         </div>
       </div>
+
+      <!-- Available Rooms -->
       <div class="stat-card available">
-        <i class="fa fa-check-circle"></i>
-        <div>
-          <h3 id="availableRooms">—</h3>
-          <p>Available</p>
+        <div class="stat-top-row">
+          <div class="stat-icon"><i class="fa fa-check-circle"></i></div>
+          <span class="stat-tag">Ready to Book</span>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number" id="availableRooms">—</h3>
+          <p class="stat-label">Available Now</p>
         </div>
       </div>
+
+      <!-- Booked Rooms -->
       <div class="stat-card booked">
-        <i class="fa fa-times-circle"></i>
-        <div>
-          <h3 id="bookedRooms">—</h3>
-          <p>Booked</p>
+        <div class="stat-top-row">
+          <div class="stat-icon"><i class="fa fa-bed"></i></div>
+          <span class="stat-tag">Occupied</span>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number" id="bookedRooms">—</h3>
+          <p class="stat-label">Currently Booked</p>
         </div>
       </div>
+
+      <!-- Total Guests -->
       <div class="stat-card guests">
-        <i class="fa fa-users"></i>
-        <div>
-          <h3 id="totalGuests">—</h3>
-          <p>Total Guests</p>
+        <div class="stat-top-row">
+          <div class="stat-icon"><i class="fa fa-users"></i></div>
+          <span class="stat-tag">VIP Guests</span>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-number" id="totalGuests">—</h3>
+          <p class="stat-label">Total Guest Stays</p>
         </div>
       </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="quick-actions" style="margin-top:30px;">
-      <a href="booking.html" class="action-btn">
-        <i class="fa fa-calendar-plus"></i> New Booking
+    <!-- Quick Action Buttons -->
+    <div class="quick-actions-bar">
+      <a href="booking.html" class="btn-action-primary">
+        <i class="fa-solid fa-calendar-plus"></i>
+        <span>New Booking</span>
+        <span class="action-hotkey">Fast Check-In</span>
       </a>
-      <a href="rooms.html" class="action-btn">
-        <i class="fa fa-bed"></i> View All Rooms
+      <a href="rooms.html" class="btn-action-dark">
+        <i class="fa-solid fa-bed"></i>
+        <span>Room Inventory</span>
       </a>
-      <a href="guests.html" class="action-btn">
-        <i class="fa fa-users"></i> View All Guests
+      <a href="guests.html" class="btn-action-light">
+        <i class="fa-solid fa-users"></i>
+        <span>Guest Directory</span>
       </a>
     </div>
 
-    <!-- Recent Bookings -->
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;margin:35px 0 15px;color:#1a1208;">
-      🕐 Recent Bookings
-    </h3>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Booking ID</th>
-            <th>Guest Name</th>
-            <th>Room</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-          </tr>
-        </thead>
-        <tbody id="recentBookingsBody">
-          <tr>
-            <td colspan="5" style="text-align:center;color:#aaa;padding:25px;">
-              No bookings yet. <a href="booking.html" style="color:#b8963e;">Make a booking?</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Recent Bookings Table Card -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <div class="table-header-title">
+          <div class="table-header-icon">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+          <div>
+            <h3>Recent Bookings</h3>
+            <span class="table-header-sub">Latest guest arrivals &amp; active reservations</span>
+          </div>
+        </div>
+        <a href="guests.html" class="table-header-link">
+          <span>View All Guests</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Guest Details</th>
+              <th>Allocated Room</th>
+              <th>Stay Duration</th>
+              <th>Status &amp; Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentBookingsBody">
+            <tr>
+              <td colspan="5" class="table-empty-cell">
+                <div class="empty-state">
+                  <div class="empty-icon-wrap"><i class="fa-solid fa-bell-concierge"></i></div>
+                  <h4>No Bookings Registered Yet</h4>
+                  <p>All rooms are currently vacant and ready for new guests.</p>
+                  <a href="booking.html" class="btn-action-primary" style="margin-top:10px;display:inline-flex;">
+                    <i class="fa-solid fa-plus"></i> Make First Booking
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -432,6 +716,7 @@
     </div>
   </footer>
 
+  <script src="js/api.js"></script>
   <script src="js/app.js"></script>
   <script src="js/dashboard.js"></script>
   <script>
