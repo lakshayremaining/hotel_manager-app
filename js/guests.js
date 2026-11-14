@@ -104,7 +104,7 @@ async function checkOut(bookingId) {
     await HotelAPI.checkOutGuest(bookingId);
     allBookings = await HotelAPI.getBookings();
     renderGuests(allBookings);
-    alert("✅ Guest has been checked out successfully and the room is now available.");
+    alert("Guest has been checked out successfully and the room is now available.");
   } catch (err) {
     alert(`Checkout error: ${err.message}`);
   }

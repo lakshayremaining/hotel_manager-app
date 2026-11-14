@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
 const Room = require("../models/Room");
-const { sendBookingConfirmationEmail } = require("../utils/emailService");
 
 // Helper to generate NRH-xxx booking ID
 async function generateBookingId() {
@@ -73,24 +72,9 @@ router.post("/", async (req, res) => {
     room.status = "booked";
     await room.save();
 
-    // Send confirmation email via Resend if email is provided
-    let emailStatus = null;
-    if (booking.email) {
-      // Send asynchronously without blocking the response
-      sendBookingConfirmationEmail(booking)
-        .then(result => {
-          if (!result.success) {
-            console.log("Email dispatch result:", result);
-          }
-        })
-        .catch(err => console.error("Error triggering confirmation email:", err.message));
-      emailStatus = "Confirmation email queued";
-    }
-
     res.status(201).json({
       message: "Booking confirmed successfully",
       booking,
-      emailStatus,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
