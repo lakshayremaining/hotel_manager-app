@@ -53,12 +53,28 @@
 
   <!-- ===== HERO — Hotel Building Banner ===== -->
   <section class="hero">
-    <div class="hero-image">
-      <!-- Hotel building image from Unsplash (luxury heritage hotel) -->
+    <div class="hero-image hero-slider">
+      <!-- 3 Luxury Hotel Images Rotating with Smooth Fade Transition -->
       <img 
-        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80" 
-        alt="Namo Raga Hotel Building"
+        class="hero-slide active"
+        src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85" 
+        alt="Namo Raga Grand Hotel Exterior"
       />
+      <img 
+        class="hero-slide"
+        src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=85" 
+        alt="Namo Raga Royal Palace Architecture"
+      />
+      <img 
+        class="hero-slide"
+        src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=85" 
+        alt="Namo Raga Luxury Resort & Poolside"
+      />
+      <div class="hero-slider-indicators">
+        <span class="slide-dot active" onclick="setHeroSlide(0)"></span>
+        <span class="slide-dot" onclick="setHeroSlide(1)"></span>
+        <span class="slide-dot" onclick="setHeroSlide(2)"></span>
+      </div>
     </div>
     <div class="hero-content">
       <div class="hero-badge">
@@ -729,6 +745,40 @@
     // Mobile menu toggle
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // Rotating Landing Hero Slideshow
+    let currentHeroIndex = 0;
+    const heroSlides = document.querySelectorAll('.hero-slider .hero-slide');
+    const heroDots = document.querySelectorAll('.hero-slider .slide-dot');
+
+    function showHeroSlide(index) {
+      if (!heroSlides.length) return;
+      heroSlides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      heroDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      currentHeroIndex = index;
+    }
+
+    function setHeroSlide(index) {
+      showHeroSlide(index);
+      resetHeroInterval();
+    }
+
+    let heroTimer = setInterval(() => {
+      const nextIndex = (currentHeroIndex + 1) % heroSlides.length;
+      showHeroSlide(nextIndex);
+    }, 4500);
+
+    function resetHeroInterval() {
+      clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        const nextIndex = (currentHeroIndex + 1) % heroSlides.length;
+        showHeroSlide(nextIndex);
+      }, 4500);
     }
   </script>
 </body>
