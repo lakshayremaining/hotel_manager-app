@@ -2654,6 +2654,166 @@ footer.footer {
   transform: translateY(-6px);
 }
 
+/* ==============================================================
+   SIGNATURE FEATURES & INTERACTIVE UI ENHANCEMENTS
+   ============================================================== */
+
+/* Glassmorphism Card Component */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(184, 150, 62, 0.28);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: all 0.35s ease;
+}
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px rgba(184, 150, 62, 0.18);
+  transform: translateY(-4px);
+}
+
+/* Gradient Typography Accent */
+.gradient-text {
+  background: linear-gradient(135deg, #dfbe7a 0%, #b8963e 50%, #957525 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 700;
+}
+
+/* Dynamic Hover Accent */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shine-hover::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: transform 0.7s ease;
+}
+.shine-hover:hover::after {
+  transform: translateX(450%) rotate(25deg);
+}
+
+/* Live Status Indicator */
+.live-pulse-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  animation: pulseGlow 1.8s infinite;
+}
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+/* Scroll To Top Utility */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 44px;
+  height: 44px;
+  background: var(--dark);
+  color: var(--gold);
+  border: 1px solid rgba(184, 150, 62, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  z-index: 999;
+  text-decoration: none;
+}
+.scroll-top-btn:hover {
+  background: var(--gold);
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(184, 150, 62, 0.4);
+}
+
+/* Features Showcase Grid */
+.features-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+}
+.feature-highlight-card {
+  padding: 28px 24px;
+  text-align: center;
+}
+.feature-icon-bubble {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--gold-bg);
+  border: 1px solid rgba(184, 150, 62, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1.35rem;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.feature-highlight-card:hover .feature-icon-bubble {
+  transform: scale(1.1) rotate(5deg);
+  background: var(--gold);
+  color: white;
+}
+.feature-highlight-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.feature-highlight-card p {
+  font-size: 0.82rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
 /* Humanized luxury clean text styling */
 body {
   position: relative;
