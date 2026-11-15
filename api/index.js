@@ -36,7 +36,7 @@ app.use("/api/bookings", bookingRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     status: "online",
-    hotel: "Namo Raga Hotel API",
+    hotel: "Lakshay Luxary Hotels API",
     platform: process.env.VERCEL ? "Vercel Serverless" : "Local Node Server",
     time: new Date().toISOString(),
   });
@@ -48,7 +48,7 @@ app.use(express.static(path.join(__dirname, "..")));
 // Only call listen if run directly (local), Vercel invokes module.exports
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
-    console.log(`🏨 Namo Raga Hotel running at: http://localhost:${PORT}`);
+    console.log(`🏨 Lakshay Luxary Hotels running at: http://localhost:${PORT}`);
   });
 }
 

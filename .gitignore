@@ -21,3 +21,6 @@ Thumbs.db
 
 # Vercel deployment folder
 .vercel/
+
+# Private Guides / Notes
+VIVA_AND_PROJECT_GUIDE.md

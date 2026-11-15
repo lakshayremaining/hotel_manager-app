@@ -24,16 +24,16 @@ app.use("/api/bookings", bookingRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     status: "online",
-    hotel: "Namo Raga Hotel API",
+    hotel: "Lakshay Luxary Hotels API",
     time: new Date().toISOString(),
   });
 });
 
 // Root route
 app.get("/", (req, res) => {
-  res.send("Namo Raga Hotel Backend API is running. Check /api/health or /api/rooms");
+  res.send("Lakshay Luxary Hotels Backend API is running. Check /api/health or /api/rooms");
 });
 
 app.listen(PORT, () => {
-  console.log(`🏨 Namo Raga Hotel Server running on http://localhost:${PORT}`);
+  console.log(`🏨 Lakshay Luxary Hotels Server running on http://localhost:${PORT}`);
 });
