@@ -1,91 +1,43 @@
-# Namo Raga Hotel — Backend API (Node.js + Express + MongoDB)
+# Hotel Management Backend
 
-## 📁 Architecture Overview
-```text
-backend/
-├── config/
-│   └── db.js            # MongoDB Mongoose connection
-├── models/
-│   ├── Room.js          # Room Mongoose schema & specifications
-│   └── Booking.js       # Booking Mongoose schema
-├── routes/
-│   ├── roomRoutes.js    # /api/rooms endpoints
-│   └── bookingRoutes.js # /api/bookings endpoints
-├── .env                 # Environment variables (PORT, MONGO_URI)
-├── package.json         # Dependencies & scripts
-├── seed.js              # Initial database seeder (10 rooms)
-└── server.js            # Express server entry point
+Backend for the hotel project. It uses Express and MongoDB.
+
+## Run the project
+
+Run these commands from the project folder (the folder containing the main package.json).
+
+1. Add a `.env` file in that folder with your MongoDB connection:
+
+```env
+MONGO_URI=mongodb+srv://YOUR_USER:YOUR_PASSWORD@YOUR_CLUSTER/namo_raga_hotel
+PORT=5000
 ```
 
----
+2. Install packages and add the initial rooms:
 
-## 🚀 Getting Started
-
-### 1. MongoDB Setup
-You can use either:
-- **MongoDB Atlas (Recommended - Free Cloud DB)**:
-  1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free M0 cluster.
-  2. Click **Connect** > **Drivers** > copy the connection string.
-  3. Paste it in `backend/.env`:
-     ```env
-     MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/namo_raga_hotel?retryWrites=true&w=majority
-     PORT=5000
-     ```
-- **Local MongoDB**:
-  Ensure MongoDB service is running locally, then in `backend/.env`:
-  ```env
-  MONGO_URI=mongodb://127.0.0.1:27017/namo_raga_hotel
-  PORT=5000
-  ```
-
-### 2. Seed Default Hotel Rooms
-Populate the database with the 10 hotel rooms and luxury specifications:
 ```bash
-cd backend
+npm install
 npm run seed
 ```
 
-### 3. Start the Server
-- **Development mode** (auto-reloads on file changes):
-  ```bash
-  cd backend
-  npm run dev
-  ```
-- **Production mode**:
-  ```bash
-  npm start
-  ```
-The API server will run on `http://localhost:5000`.
+3. Start the app:
 
----
-
-## 📡 REST API Reference
-
-### Rooms Endpoints
-| Method | Endpoint | Query / Body | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/rooms` | `?status=available` | Get all rooms or filter by availability |
-| `GET` | `/api/rooms/:id` | — | Get single room details (e.g. `/api/rooms/101`) |
-| `PATCH` | `/api/rooms/:id/status` | `{ "status": "available" \| "booked" \| "maintenance" }` | Update room status |
-
-### Bookings Endpoints
-| Method | Endpoint | Query / Body | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/bookings` | `?search=guestName` | Fetch all bookings or search by name/phone/ID |
-| `POST` | `/api/bookings` | JSON object (see below) | Create a new booking & auto-mark room as booked |
-| `POST` | `/api/bookings/:id/checkout` | — | Check out guest & free the room |
-| `DELETE`| `/api/bookings/:id` | — | Cancel booking & release room |
-
-#### Booking POST Body Example:
-```json
-{
-  "guestName": "Rahul Sharma",
-  "phone": "9876543210",
-  "email": "rahul@example.com",
-  "roomId": 105,
-  "checkIn": "2026-11-20",
-  "checkOut": "2026-11-23",
-  "nights": 3,
-  "amount": 13500
-}
+```bash
+npm run dev
 ```
+
+Open http://localhost:5000. For a normal start, use `npm start`.
+
+For Vercel, set `MONGO_URI` in the project environment variables.
+
+## Main API routes
+
+- `GET /api/rooms` — list rooms; optional `?status=available`
+- `GET /api/rooms/:id` — get one room
+- `PATCH /api/rooms/:id/status` — change room status
+- `GET /api/bookings` — list bookings; optional `?search=name`
+- `POST /api/bookings` — create a booking and mark its room booked
+- `POST /api/bookings/:id/checkout` — check out a guest and free the room
+- `DELETE /api/bookings/:id` — cancel a booking
+
+The database has two collections: `rooms` and `bookings`.
