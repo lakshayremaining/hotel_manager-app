@@ -13,12 +13,14 @@ MONGO_URI=mongodb+srv://YOUR_USER:YOUR_PASSWORD@YOUR_CLUSTER/namo_raga_hotel
 PORT=5000
 ```
 
-2. Install packages and add the initial rooms:
+2. Install packages. If the database is new, add the starter rooms once:
 
 ```bash
 npm install
 npm run seed
 ```
+
+The seed command only adds missing rooms. It preserves existing room statuses and bookings, so it is safe to run again.
 
 3. Start the app:
 
