@@ -1,9 +1,5 @@
-const dns = require("dns");
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
-const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
-require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-const mongoose = require("mongoose");
+require("dotenv").config();
+const connectDB = require("./config/db");
 const Room = require("./models/Room");
 
 const DEFAULT_ROOMS = [
@@ -181,15 +177,20 @@ const DEFAULT_ROOMS = [
 
 async function seed() {
   try {
-    const connUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/namo_raga_hotel";
-    await mongoose.connect(connUri);
+    await connectDB();
     console.log("Connected to MongoDB for seeding...");
 
-    // Remove existing rooms to re-seed cleanly
-    await Room.deleteMany({});
-    await Room.insertMany(DEFAULT_ROOMS);
+    await Room.bulkWrite(
+      DEFAULT_ROOMS.map(room => ({
+        updateOne: {
+          filter: { id: room.id },
+          update: { $setOnInsert: room },
+          upsert: true,
+        },
+      }))
+    );
 
-    console.log(`✅ Successfully seeded ${DEFAULT_ROOMS.length} rooms!`);
+    console.log(`✅ Default rooms ready. Existing rooms and bookings were preserved.`);
     process.exit(0);
   } catch (err) {
     console.error("❌ Seeding failed:", err.message);
