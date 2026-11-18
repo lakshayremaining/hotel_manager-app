@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guests — Lakshay Luxary Hotels</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpg"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <!-- Floating Infinite Ambient Background -->
+  <div class="floating-bg-container" aria-hidden="true">
+    <div class="float-orb float-orb-1"></div>
+    <div class="float-orb float-orb-2"></div>
+    <div class="float-orb float-orb-3"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    Call Us: <span>+91 98765 43210</span> &nbsp;|&nbsp; <span>lakshayluxaryhotels@gmail.com</span> &nbsp;|&nbsp; Open 24 × 7
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <img src="logo.jpg" alt="Lakshay Luxary Hotels Logo" class="logo-img"/>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">LAKSHAY LUXARY HOTELS</span>
+        <span class="logo-sub">Luxury Hotel</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="rooms.html">Rooms</a></li>
+      <li><a href="booking.html">Experiences</a></li>
+      <li><a href="index.html#offers">Offers</a></li>
+      <li><a href="index.html#events">Events</a></li>
+      <li><a href="guests.html" class="active">Guests</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="guests.html" class="btn-login">LOGIN / JOIN</a>
+      <a href="booking.html" class="btn-book">BOOK A STAY</a>
+      <div class="hamburger" onclick="toggleMenu()"><i class="fa fa-bars"></i></div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="inner-page-hero">
+    <h1>Guest Registry</h1>
+    <p>Home &rsaquo; <span style="color:var(--gold-light);">All Guests</span></p>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <div>
+        <h2 class="inner-page-title" style="font-size:1.8rem;">All Guests &amp; Bookings</h2>
+        <p style="font-size:0.82rem;color:#888;margin-top:5px;">Click "Check Out" to free the room when a guest leaves.</p>
+      </div>
+      <input 
+        type="text" 
+        id="searchGuest" 
+        placeholder="Search guests by name, phone or ID..." 
+        oninput="searchGuests()" 
+        class="search-input"
+      />
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Guest Name</th>
+            <th>Phone</th>
+            <th>Room</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="guestsBody">
+          <!-- Filled by guests.js -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo-wrap">
+          <img src="logo.jpg" alt="Lakshay Luxary Hotels Logo" class="footer-logo-img"/>
+          <div>
+            <div class="footer-logo-name">LAKSHAY LUXARY</div>
+            <div class="footer-logo-sub">Hotels &amp; Resorts</div>
+          </div>
+        </div>
+        <p>Lakshay Luxary Hotels offers a timeless blend of tradition and modern luxury.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Our Rooms</a></li>
+          <li><a href="booking.html">Book a Stay</a></li>
+          <li><a href="guests.html">Guest List</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Room Types</h4>
+        <ul>
+          <li><a href="#">Single Rooms</a></li>
+          <li><a href="#">Double Rooms</a></li>
+          <li><a href="#">Deluxe Rooms</a></li>
+          <li><a href="#">Luxury Suites</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact Us</h4>
+        <p><i class="fa fa-map-marker-alt"></i> 12 Palace Road, Jaipur, Rajasthan</p>
+        <p><i class="fa fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa fa-envelope"></i> lakshayluxaryhotels@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lakshay Luxary Hotels. All Rights Reserved.</span>
+      <div style="display:flex;gap:20px;"><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/guests.js"></script>
+  <script>function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}</script>
+</body>
+</html>
