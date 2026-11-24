@@ -1,20 +1,24 @@
 // =============================================
-//  api.js — Backend API Client for Namo Raga Hotel
+//  api.js — PHP + MySQL Backend API Client for Namo Raga Hotel
 // =============================================
 
-// Determine base API URL dynamically for Vercel and Local environments
-const isLocalAltPort =
-  window.location.protocol === "file:" ||
-  (window.location.hostname === "localhost" && window.location.port !== "5000") ||
-  (window.location.hostname === "127.0.0.1" && window.location.port !== "5000");
+// Automatically detect whether accessed via XAMPP (http://localhost/HOTEL/...) or local dev server
+function getApiBasePath() {
+  const loc = window.location;
+  if (loc.pathname.includes("/HOTEL/")) {
+    return "/HOTEL/php_backend";
+  }
+  // If running directly on root or subfolder
+  return "./php_backend";
+}
 
-const API_BASE_URL = isLocalAltPort ? "http://localhost:5000/api" : "/api";
+const API_BASE_URL = getApiBasePath();
 
 const HotelAPI = {
   // Check if backend is reachable
   async checkHealth() {
     try {
-      const res = await fetch(`${API_BASE_URL}/health`);
+      const res = await fetch(`${API_BASE_URL}/health.php`);
       return res.ok;
     } catch {
       return false;
@@ -24,22 +28,24 @@ const HotelAPI = {
   // Fetch all rooms (optional query: 'available', 'booked')
   async getRooms(status) {
     try {
-      const url = status ? `${API_BASE_URL}/rooms?status=${status}` : `${API_BASE_URL}/rooms`;
+      const url = status
+        ? `${API_BASE_URL}/rooms.php?status=${encodeURIComponent(status)}`
+        : `${API_BASE_URL}/rooms.php`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      return await res.json();
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
     } catch (err) {
       console.warn("Backend unavailable, falling back to local data:", err.message);
-      // Fallback to local storage if API is temporarily unavailable
       const localRooms = JSON.parse(localStorage.getItem("namoRagaRooms")) || [];
       return status ? localRooms.filter(r => r.status === status) : localRooms;
     }
   },
 
-  // Fetch single room
+  // Fetch single room by ID
   async getRoom(roomId) {
     try {
-      const res = await fetch(`${API_BASE_URL}/rooms/${roomId}`);
+      const res = await fetch(`${API_BASE_URL}/rooms.php?id=${encodeURIComponent(roomId)}`);
       if (!res.ok) throw new Error("Room not found");
       return await res.json();
     } catch (err) {
@@ -52,11 +58,12 @@ const HotelAPI = {
   async getBookings(search = "") {
     try {
       const url = search
-        ? `${API_BASE_URL}/bookings?search=${encodeURIComponent(search)}`
-        : `${API_BASE_URL}/bookings`;
+        ? `${API_BASE_URL}/bookings.php?search=${encodeURIComponent(search)}`
+        : `${API_BASE_URL}/bookings.php`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      return await res.json();
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
     } catch (err) {
       console.warn("Backend unavailable, falling back to local bookings:", err.message);
       const localBookings = JSON.parse(localStorage.getItem("namoRagaBookings")) || [];
@@ -71,10 +78,10 @@ const HotelAPI = {
     }
   },
 
-  // Create a new booking
+  // Create a new booking (saved directly into MySQL database)
   async createBooking(bookingData) {
     try {
-      const res = await fetch(`${API_BASE_URL}/bookings`, {
+      const res = await fetch(`${API_BASE_URL}/bookings.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
@@ -83,48 +90,23 @@ const HotelAPI = {
       if (!res.ok) throw new Error(data.error || "Booking failed");
       return data;
     } catch (err) {
-      console.warn("Backend unavailable, saving locally:", err.message);
-      // Local fallback
-      const bookings = JSON.parse(localStorage.getItem("namoRagaBookings")) || [];
-      const newId = "NRH-" + String(bookings.length + 1).padStart(3, "0");
-      const fallbackBooking = {
-        ...bookingData,
-        id: newId,
-        bookedOn: new Date().toISOString(),
-      };
-      bookings.push(fallbackBooking);
-      localStorage.setItem("namoRagaBookings", JSON.stringify(bookings));
-
-      // Update room in localStorage
-      const rooms = JSON.parse(localStorage.getItem("namoRagaRooms")) || [];
-      const updatedRooms = rooms.map(r => (r.id === bookingData.roomId ? { ...r, status: "booked" } : r));
-      localStorage.setItem("namoRagaRooms", JSON.stringify(updatedRooms));
-
-      return { message: "Booking saved locally", booking: fallbackBooking };
+      console.error("Booking error:", err.message);
+      throw err;
     }
   },
 
-  // Check out guest & free the room
+  // Check out guest & free the room in MySQL database
   async checkOutGuest(bookingId) {
     try {
-      const res = await fetch(`${API_BASE_URL}/bookings/${bookingId}/checkout`, {
+      const res = await fetch(`${API_BASE_URL}/bookings.php?action=checkout&id=${encodeURIComponent(bookingId)}`, {
         method: "POST",
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Checkout failed");
       return data;
     } catch (err) {
-      // Local fallback
-      let bookings = JSON.parse(localStorage.getItem("namoRagaBookings")) || [];
-      const b = bookings.find(item => item.id === bookingId);
-      if (b) {
-        let rooms = JSON.parse(localStorage.getItem("namoRagaRooms")) || [];
-        rooms = rooms.map(r => (r.id === b.roomId ? { ...r, status: "available" } : r));
-        localStorage.setItem("namoRagaRooms", JSON.stringify(rooms));
-        bookings = bookings.filter(item => item.id !== bookingId);
-        localStorage.setItem("namoRagaBookings", JSON.stringify(bookings));
-      }
-      return { message: "Checkout completed locally" };
+      console.error("Checkout error:", err.message);
+      throw err;
     }
   },
 };
