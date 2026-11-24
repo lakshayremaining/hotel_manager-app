@@ -100,6 +100,8 @@ INSERT INTO `rooms` (`id`, `type`, `price`, `status`, `badge`, `floor`, `size`, 
  'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=700&q=80', 
  '["Free Wi-Fi", "Climate Control", "Smart TV", "Organic Toiletries"]', 
  'Late check-out upon request')
+
+--  agar pehle se vo room detailed hai 
 ON DUPLICATE KEY UPDATE 
   `type`=VALUES(`type`), `price`=VALUES(`price`), `badge`=VALUES(`badge`), 
   `floor`=VALUES(`floor`), `size`=VALUES(`size`), `guests`=VALUES(`guests`), 
