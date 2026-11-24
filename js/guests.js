@@ -14,7 +14,8 @@ window.onload = async function () {
   try {
     allBookings = await HotelAPI.getBookings();
   } catch (e) {
-    allBookings = getBookings();
+    console.error("Failed to fetch bookings:", e);
+    allBookings = [];
   }
   renderGuests(allBookings);
 };

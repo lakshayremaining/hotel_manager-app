@@ -16,8 +16,7 @@ async function loadDashboard() {
       HotelAPI.getBookings()
     ]);
   } catch (e) {
-    rooms = getRooms();
-    bookings = getBookings();
+    console.error("Failed to load dashboard data from database:", e);
   }
 
   const available = rooms.filter(r => r.status === "available").length;
