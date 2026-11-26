@@ -5,7 +5,8 @@
 // ==============================================================
 
 // Set JSON headers and CORS for all API responses
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *"); 
+// request kha se aa ri hai 
 header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Content-Type: application/json; charset=UTF-8");
